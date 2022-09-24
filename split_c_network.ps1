@@ -8,7 +8,7 @@ $ips = @{}
 $digits_as_int =[System.Convert]::ToInt32( $DigtisToSpend, 2 )
 
 for ($i = 0; $i -le 255; $i++) {
-    $ips[$digits_as_int -band $i ] += @("$NetworkAddress.$i")
+    $ips[ $digits_as_int -band $i ] += @("$NetworkAddress.$i")
 }
 
 $ips
