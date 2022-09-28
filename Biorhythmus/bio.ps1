@@ -1,7 +1,9 @@
 param(
-   [datetime] $birth = (Get-Date -Day 11 -Month 11 -Year 1978)
+   $year = 1980,
+   $month = 10,
+   $day_of_month = 3
 )
-
+$birth = Get-Date -Year $year -Month $month -Day $day_of_month
 $actual_date = Get-Date
 function Get-Physical ( $days ) {
     [Math]::Sin((2*[math]::PI)*$days/23)
