@@ -33,13 +33,19 @@ $data | Format-Table Date, "Day diff", @{l="Pyhsical";e={($_.Physical).toString(
 @{l="Emmotional";e={($_.Emmotional).toString("p")};a="right"},
 @{l="Intelligence";e={($_.Intelligence).toString("p")};a="right"}
 
+"`nGeordnet nach Intelligenz"
+
 $data | Sort-Object Intelligence | Format-Table Date, "Day diff", @{l="Pyhsical";e={($_.Physical).toString("p")};a="right"},
 @{l="Emmotional";e={($_.Emmotional).toString("p")};a="right"},
 @{l="Intelligence";e={($_.Intelligence).toString("p")};a="right"}
 
+"`nGeordnet nach phyischer Konstitution"
+
 $data | Sort-Object Physical | Format-Table Date, "Day diff", @{l="Pyhsical";e={($_.Physical).toString("p")};a="right"},
 @{l="Emmotional";e={($_.Emmotional).toString("p")};a="right"},
 @{l="Intelligence";e={($_.Intelligence).toString("p")};a="right"}
+
+"`nGeordnet nach emmotionaler Konstitution"
 
 $data | Sort-Object Emmotional | Format-Table Date, "Day diff", @{l="Pyhsical";e={($_.Physical).toString("p")};a="right"},
 @{l="Emmotional";e={($_.Emmotional).toString("p")};a="right"},
