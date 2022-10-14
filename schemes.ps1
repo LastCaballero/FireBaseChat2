@@ -1,4 +1,4 @@
-﻿Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 function actual_scheme_id {
@@ -6,14 +6,10 @@ function actual_scheme_id {
     $Matches[0]
 }
 
-
 function actual_scheme_name {
     (powercfg /getactivescheme) -match "\(.+\)" > $null
     $Matches[0] -replace "\(|\)",""
 }
-
-
-
 
 $form = [System.Windows.Forms.Form]::new()
 $form.Text = "Power-Setter"
