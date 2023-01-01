@@ -20,5 +20,6 @@ trap {
 }
 
 <#
-    it is only capable to accept 1 request at time, closing the streams for input and output and sending a useless response.
+    it is only capable to accept 1 request at time, reading the request, writing a useless message, closing the streams between and waiting once again for a request.
+    Therefor nginx and Apache don´t have to expect concurrency :-)
 #>
