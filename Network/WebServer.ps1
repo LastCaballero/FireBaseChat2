@@ -19,4 +19,6 @@ trap {
     $WebServer.Dispose()
 }
 
-
+<#
+    it is only capable to accept 1 request at time, closing the streams for input and output and sending a useless response.
+#>
