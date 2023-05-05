@@ -2,6 +2,7 @@ Param(
     $Bankbewegungen = "Volksbank_online_banking.csv"
 )
 
+
 $Csv = Import-Csv -Delimiter ";" $Bankbewegungen
 $Csv | ForEach-Object { $_.Betrag = [decimal]::Parse( $_.Betrag ) }
 
@@ -24,6 +25,17 @@ $Bewegungen_Array = $Csv | ForEach-Object {
 
 $Beteiligte = $Bewegungen_Array | Group-Object -AsHashTable Beteiligter
 
+class BilanzPosten{
+    $Bezeichnung
+    $Betrag
+    BilanzPosten($bez, $betrag){
+        $this.Bezeichnung = $bez
+        $this.Betrag = $betrag
+    }
+}
+
+$Bilanz = @()
+
 $Beteiligte.Keys | ForEach-Object {
     $Summe = 0
     "`n$_"
@@ -33,5 +45,9 @@ $Beteiligte.Keys | ForEach-Object {
         $_
     }
     "====================================================="
-    $summe
+    $Summe
+    $Bilanz += [BilanzPosten]::new($_, $Summe)
 }
+
+$Bilanz | Sort-Object Betrag | Format-Table
+
