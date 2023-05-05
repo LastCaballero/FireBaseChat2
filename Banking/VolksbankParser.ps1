@@ -3,6 +3,7 @@ Param(
 )
 
 
+
 $Csv = Import-Csv -Delimiter ";" $Bankbewegungen
 $Csv | ForEach-Object { $_.Betrag = [decimal]::Parse( $_.Betrag ) }
 
@@ -24,7 +25,7 @@ $Zahlungsbeteiligte.Keys | ForEach-Object {
     $Zahlungsbeteiligte[$_] | ForEach-Object {
         $Summe += $_.Betrag
         [BankBewegung]::new($_.Buchungstag, $_.Betrag)
-    } | Sort-Object -Property Datum
+    } | Sort-Object -Property Datum | Format-Table @{l="Datum";e={$_.Datum.ToShortDateString()}},Betrag
     "---------------------------"
     "Summe: $Summe"
 }
