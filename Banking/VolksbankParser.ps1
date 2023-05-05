@@ -20,7 +20,11 @@ $Zahlungsbeteiligte = $Csv | Group-Object -AsHashTable "Name Zahlungsbeteiligter
 $Zahlungsbeteiligte.Keys | ForEach-Object {
     "`n"
     $_
+    $Summe = 0
     $Zahlungsbeteiligte[$_] | ForEach-Object {
+        $Summe += $_.Betrag
         [BankBewegung]::new($_.Buchungstag, $_.Betrag)
     } | Sort-Object -Property Datum
+    "---------------------------"
+    "Summe: $Summe"
 }
