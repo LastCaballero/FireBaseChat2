@@ -45,9 +45,8 @@ $Beteiligte.Keys | ForEach-Object {
         $_
     }
     "====================================================="
-    $Summe
+    "Summe: $Summe"
     $Bilanz += [BilanzPosten]::new($_, $Summe)
 }
 
 $Bilanz | Sort-Object Betrag | Format-Table
-
