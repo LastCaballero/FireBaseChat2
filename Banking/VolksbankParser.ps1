@@ -4,7 +4,7 @@ Param(
 
 
 $Csv = Import-Csv -Delimiter ";" $Bankbewegungen
-$Csv | ForEach-Object { $_.Betrag = [double]::Parse( $_.Betrag ) }
+$Csv | ForEach-Object { $_.Betrag = [decimal]::Parse( $_.Betrag ) }
 
 class BankBewegung{
     $Datum
