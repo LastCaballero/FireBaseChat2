@@ -2,30 +2,36 @@ Param(
     $Bankbewegungen = "Volksbank_online_banking.csv"
 )
 
-
-
 $Csv = Import-Csv -Delimiter ";" $Bankbewegungen
 $Csv | ForEach-Object { $_.Betrag = [decimal]::Parse( $_.Betrag ) }
 
 class BankBewegung{
     $Datum
     $Betrag
-    BankBewegung($datum, $betrag){
+    $Beteiligter
+    $Verwendungszweck
+    BankBewegung($datum, $betrag, $beteiligter, $verwendungszweck){
         $this.Datum = [datetime]::Parse($datum)
         $this.Betrag = $betrag
+        $this.Beteiligter = $beteiligter
+        $this.Verwendungszweck = $verwendungszweck
     }
 }
+$Bewegungen_Array = $Csv | ForEach-Object {
+    [BankBewegung]::new($_.Buchungstag, $_.Betrag, $_.'Name Zahlungsbeteiligter', $_.Verwendungszweck)
+}
 
-$Zahlungsbeteiligte = $Csv | Group-Object -AsHashTable "Name Zahlungsbeteiligter"
 
-$Zahlungsbeteiligte.Keys | ForEach-Object {
-    "`n"
-    $_
+$Beteiligte = $Bewegungen_Array | Group-Object -AsHashTable Beteiligter
+
+$Beteiligte.Keys | ForEach-Object {
     $Summe = 0
-    $Zahlungsbeteiligte[$_] | ForEach-Object {
+    "`n$_"
+    "====================================================="
+    $Beteiligte[$_] | Sort-Object Datum | ForEach-Object {
         $Summe += $_.Betrag
-        [BankBewegung]::new($_.Buchungstag, $_.Betrag)
-    } | Sort-Object -Property Datum | Format-Table @{l="Datum";e={$_.Datum.ToShortDateString()}},Betrag
-    "---------------------------"
-    "Summe: $Summe"
+        $_
+    }
+    "====================================================="
+    $summe
 }
