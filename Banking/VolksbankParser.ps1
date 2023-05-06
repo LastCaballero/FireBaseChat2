@@ -49,4 +49,15 @@ $Beteiligte.Keys | ForEach-Object {
     $Bilanz += [BilanzPosten]::new($_, $Summe)
 }
 
-$Bilanz | Sort-Object Betrag | Format-Table
+$Win, $Lost = $Bilanz.Where({ $_.Betrag -ge 0 }, "Split")
+
+#$Bilanz | Sort-Object Betrag | Format-Table
+
+"`nWin: "
+"==============================================="
+$Win | Sort-Object Betrag | Format-Table
+
+
+"Lost:"
+"==============================================="
+$Lost | Sort-Object Betrag | Format-Table
