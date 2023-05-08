@@ -1,1 +1,19 @@
-it makes a nice listing of your money movements of banking data in csv-format.
+Dieses kleine Projekt zeigt, wie mächtig die Powershell im Auswerten von Daten ist.
+
+Die Idee ist, dass auch Privatleute quasi eine Bilanz wie Unternehmen machen können und auch Ausgabe- und Einnahmekonten haben können.
+Einnahmekonten sind z.B.
+
+-> Gehalt
+-> Nebenjob
+
+Augabekonten sind:
+
+-> Aldi
+-> Penny
+-> Rewe
+-> usw.
+
+Aus den Summen der einzelnen Konten kann man so eine Art von Bilanz erstellen.
+Es versteht sich von selbst, dass man auch Fix- und variable Kosten haben kann.
+
+Diese paar Zeilen an Code reichen aus, dass man auch als Privatmensch seinen Gewinn bzw. Verlust im Auge behalten kann.
