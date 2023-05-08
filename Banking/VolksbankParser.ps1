@@ -50,14 +50,30 @@ $Beteiligte.Keys | ForEach-Object {
 }
 
 $Win, $Lost = $Bilanz.Where({ $_.Betrag -ge 0 }, "Split")
+$WinSum = ($Win.Betrag | Measure-Object -Sum).Sum
+$LostSum = ($Lost.Betrag | Measure-Object -Sum).Sum
 
-#$Bilanz | Sort-Object Betrag | Format-Table
+$Bilanz | Sort-Object Betrag | Format-Table
 
 "`nWin: "
 "==============================================="
 $Win | Sort-Object Betrag | Format-Table
+"==============================================="
+"Summe Einnahmen: $WinSum"
+"===============================================`n"
 
 
 "Lost:"
 "==============================================="
 $Lost | Sort-Object Betrag | Format-Table
+"==============================================="
+"Summe Ausgaben: $LostSum"
+"===============================================`n"
+
+# Thats´s correct, because the $Lostsum will be negative
+$Result = $winSum + $LostSum
+
+
+"==============================================="
+"Gewinn/Verlust: $Result"
+"==============================================="
