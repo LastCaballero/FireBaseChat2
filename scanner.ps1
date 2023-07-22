@@ -11,6 +11,5 @@ $Ports | ForEach-Object {
     }
 } 1>$null
 
-
 "`n`nScanreport for ${Target}:"
-Receive-Job -Wait Scanner* | Sort-Object RemotePort | Format-Table
+Receive-Job -Wait Scanner* | Sort-Object RemotePort | Format-Table RemotePort, PingSucceeded, TcpTestSucceeded
