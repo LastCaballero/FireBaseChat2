@@ -31,16 +31,21 @@ $server.Start()
 while ( $true ) {
     $context = $server.GetContext()
     $writer = [System.IO.StreamWriter]::new( $context.Response.OutputStream )
+    $context.Request.RawUrl
     switch( $context.Request.RawUrl ) {
+        
         {$_ -eq "/"} {
             $writer.WriteLine( ( $Top -creplace "TITLE", "Startseite" ) )
-            $writer.WriteLine("hallo")
+            $links = Get-ChildItem $files | Select-Object -ExpandProperty Name
+            $links | ForEach-Object { $writer.WriteLine( "<p><a href=`"$_`">$_</a></p>"  )  }
             $writer.WriteLine( $Bottom )
             Break
         }
         {$_ -ne "/"} {
-            if( Test-Path $_ ){
-                $writer.Write( ( Get-Content $_ ) )
+            $filename = $_ -replace "/",""
+            $filename = ".\$files\$filename"
+            if( Test-Path $filename ){
+                $writer.WriteLine( ( Get-Content $filename ) )
             }
             Break
         }
