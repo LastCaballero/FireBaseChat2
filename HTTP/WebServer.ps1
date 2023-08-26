@@ -32,8 +32,13 @@ while ( $true ) {
     $context = $server.GetContext()
     $writer = [System.IO.StreamWriter]::new( $context.Response.OutputStream )
     $context.Request.RawUrl
+    if ( $context.Request.HttpMethod -eq "POST" ) {
+        $reader = [System.IO.StreamReader]::new( $context.Request.InputStream )
+        $reader.ReadToEnd() > debug.txt
+        $writer.Close()
+        Break
+    }
     switch( $context.Request.RawUrl ) {
-        
         {$_ -eq "/"} {
             $writer.WriteLine( ( $Top -creplace "TITLE", "Startseite" ) )
             $links = Get-ChildItem $files | Select-Object -ExpandProperty Name
@@ -43,9 +48,9 @@ while ( $true ) {
         }
         {$_ -ne "/"} {
             $filename = $_ -replace "/",""
-            $filename = ".\$files\$filename"
-            if( Test-Path $filename ){
-                $writer.WriteLine( ( Get-Content $filename ) )
+            if (Test-Path ".\$files\$filename" ) {
+                $content = Get-Content -Raw ".\$files\$filename"
+                $writer.WriteLine( $content )
             }
             Break
         }
