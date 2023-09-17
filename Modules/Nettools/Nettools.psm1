@@ -17,4 +17,19 @@ function Ping-Around(){
     $Tasks.Result | Where-Object { $_.Status -eq "Success" } | Format-Table
 }
 
+function Tcp-Scan {
+    param(
+        [string]$Target,
+        [int[]]$PortRange
+    )
+    $Clients = $PortRange | ForEach-Object {
+        $client = [System.Net.Sockets.TcpClient]::new()
+        $client.ConnectAsync( $Target, $_ )
+        $client.Client
+    }
+    Start-Sleep -Seconds 5
+    $Clients | Where-Object { $_.Connected } | Format-Table LocalEndPoint, RemoteEndPoint, SocketType, ProtocolType, Available
+    
+}
+
 
