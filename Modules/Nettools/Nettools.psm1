@@ -22,8 +22,8 @@ function Ping-Around(){
 
 function Get-OpenTcpPorts {
     param(
-        [string]$Target,
-        [int[]]$PortRange
+        [string]$Target = "192.168.178.1",
+        [int[]]$PortRange = 1 .. 400
     )
     $Clients = $PortRange | ForEach-Object {
         $client = [System.Net.Sockets.TcpClient]::new()
@@ -32,7 +32,8 @@ function Get-OpenTcpPorts {
     }
     Start-Sleep -Seconds 5
     $Clients | Where-Object { $_.Connected } | Format-Table LocalEndPoint, RemoteEndPoint, SocketType, ProtocolType, Available
-    
+    $Clients | Where-Object { $_.Connected } |
+    ForEach-Object { $_.DisconnectAsync( [System.EventArgs]::new() ) ; $_.Dispose() } 1>$null; 2>$null
 }
 
 
